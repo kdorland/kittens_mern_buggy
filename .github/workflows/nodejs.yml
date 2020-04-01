@@ -1,0 +1,26 @@
+name: Kitten MERN CI on node.js
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 13.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: npm install
+    - name: Build React app
+      run: npm run build
+    - name: Run all the tests in the React app
+      run: npm test
+      env:
+        CI: true
